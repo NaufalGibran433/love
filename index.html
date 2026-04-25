@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Love Heart Glow</title>
+
+<style>
+body {
+  margin: 0;
+  background: black;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  position: relative;
+  width: 600px;
+  height: 600px;
+}
+
+/* TEXT LOVE */
+.love {
+  position: absolute;
+  color: #ff4d6d;
+  font-size: 12px;
+  white-space: nowrap;
+
+  /* ✨ GLOW */
+  text-shadow:
+    0 0 5px #ff4d6d,
+    0 0 10px #ff4d6d,
+    0 0 20px #ff1a4d,
+    0 0 40px #ff1a4d;
+
+  animation: fadeMove 6s ease-in-out infinite;
+}
+
+/* 🎬 ANIMASI: muncul → hilang → muncul */
+@keyframes fadeMove {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(10px);
+  }
+  30% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.8) translateY(-10px);
+  }
+}
+
+/* ✨ efek partikel kecil */
+.particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: #ff4d6d;
+  border-radius: 50%;
+  opacity: 0.7;
+  animation: float 5s linear infinite;
+}
+
+@keyframes float {
+  from { transform: translateY(0); opacity: 0; }
+  to { transform: translateY(-200px); opacity: 1; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="container"></div>
+
+<!-- 🎵 MUSIC -->
+<audio id="bg-music" autoplay loop muted>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const container = document.getElementById("container");
+const text = "I love you Bybyyy";
+
+/* ❤️ SHAPE HEART */
+for (let t = 0; t < Math.PI * 2; t += 0.05) {
+
+  let x = 16 * Math.pow(Math.sin(t), 3);
+  let y = 13 * Math.cos(t) 
+        - 5 * Math.cos(2*t) 
+        - 2 * Math.cos(3*t) 
+        - Math.cos(4*t);
+
+  let el = document.createElement("div");
+  el.className = "love";
+  el.innerText = text;
+
+  el.style.left = (x * 18 + 300) + "px";
+  el.style.top = (300 - y * 18) + "px";
+
+  // delay beda-beda biar muncul bergelombang
+  el.style.animationDelay = (t * 2) + "s";
+
+  container.appendChild(el);
+}
+
+/* ✨ PARTICLES */
+for (let i = 0; i < 50; i++) {
+  let p = document.createElement("div");
+  p.className = "particle";
+
+  p.style.left = Math.random() * 600 + "px";
+  p.style.top = Math.random() * 600 + "px";
+
+  p.style.animationDelay = Math.random() * 5 + "s";
+
+  container.appendChild(p);
+}
+
+/* 🔊 UNMUTE SAAT KLIK */
+document.addEventListener("click", () => {
+  const music = document.getElementById("bg-music");
+  music.muted = false;
+  music.play();
+});
+</script>
+
+</body>
+</html>
